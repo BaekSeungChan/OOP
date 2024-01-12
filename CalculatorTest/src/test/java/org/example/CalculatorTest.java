@@ -2,8 +2,14 @@ package org.example;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
  * 요구사항
@@ -18,17 +24,19 @@ public class CalculatorTest {
     // 3 <-------
 
     @DisplayName("덧셈 연산을 수행한다.")
-    @Test
-    void additionTest() {
-        int result = Calculator.calculate(1, "+", 2);
-        assertThat(result).isEqualTo(3);
+    @ParameterizedTest
+    @MethodSource("formulaAndResult")
+    void calculateTest(int opperand1, String opperator, int opperand2, int result) {
+        int calculateResult = Calculator.calculate(opperand1, opperator, opperand2);
+        assertThat(calculateResult).isEqualTo(result);
     }
 
-
-    @DisplayName("뺄셈 연산을 수행한다.")
-    @Test
-    void subtraction() {
-        int result = Calculator.calculate(1, "-", 2);
-        assertThat(result).isEqualTo(-1);
+    private static Stream<Arguments> formulaAndResult() {
+        return Stream.of(
+                arguments(1, "+", 2, 3),
+                arguments(1, "-", 2, -1),
+                arguments(4, "*", 2, 8),
+                arguments(4, "/", 2, 2)
+        );
     }
 }

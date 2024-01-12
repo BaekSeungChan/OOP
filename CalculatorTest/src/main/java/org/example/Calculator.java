@@ -9,6 +9,12 @@ public class Calculator {
         else if("-".equals(opperator)){
             return opperand1 - opperand2;
         }
+        else if("*".equals(opperator)){
+            return opperand1 * opperand2;
+        }
+        else if("/".equals(opperator)){
+            return opperand1 / opperand2;
+        }
         return 0;
     }
 }
